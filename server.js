@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 const mongoose = require('mongoose');
+require('dotenv').config();
 
 const routes = require('./routes');
 const bodyParser = require('body-parser');
@@ -14,7 +15,7 @@ app.use(cors());
 app.use('/', routes);
 
 
-const dbConnectionString = `mongodb://localhost:27017/task-manager`;
+const dbConnectionString = `mongodb://${process.env.DB_HOST}/${process.env.DB_NAME}`;
 mongoose.connect(dbConnectionString);
 mongoose.Promise = global.Promise;
 const db = mongoose.connection;
@@ -25,8 +26,8 @@ db.on('error', () => {
 
 db.once('open', () => {
     console.log("DB connected");
-    app.listen(3500, () => {
-        console.log(`Server is running at PORT = ${3500}`);
+    app.listen(process.env.SERVER_PORT, () => {
+        console.log(`Server is running at PORT = ${process.env.SERVER_PORT}`);
     });
 });
 
