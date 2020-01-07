@@ -15,18 +15,32 @@ exports.getTasks = function (req, res) {
     }
 }
 
-exports.createTask = function (req, res) {
+exports.createTask = async function (req, res) {
     try {
-        let task = new Task(
-            req.body
-        )
+        let task = new Task(req.body)
         task.userId = req.userId;
-        task.save().then(tsk => {
-            res.status(200).json({message: 'Task is created.', data: tsk});
-        }).catch(err => {
-            res.status(400).json({message: err.message});
-        });
+        await task.save();
+        res.status(200).json({message: 'Task is created.', data: task});
     } catch (error) {
         res.status(400).json({message: error.message});
     }
-}
+};
+
+exports.updateTask = async function (req, res) {
+
+    try {
+        const task = await Task.findByIdAndUpdate(req.params.id, req.body);
+        res.status(201).json({message: 'Task is updated.', data: task});
+    } catch (exception) {
+        res.status(400).json({message: exception.message});
+    }
+};
+
+exports.deleteTask = async (req, res) => {
+    try {
+        await Task.findByIdAndRemove(req.params.id);
+        res.status(201).json({message: 'Task is deleted.'});
+    } catch (exception) {
+        res.status(400).json({message: exception.message});
+    }
+};
