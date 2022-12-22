@@ -15,7 +15,7 @@
     "dotenv": "^8.1.0",
     "eslint-config-defaults": "^9.0.0",
     "express": "^4.17.1",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "jwt-blacklist": "0.0.2",
     "mongoose": "^5.7.5",
     "nodemon": "^1.19.1"
